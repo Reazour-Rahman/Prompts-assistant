@@ -42,7 +42,7 @@ app.get('/api/items', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-});
+});     
 
 // API endpoint: Add a new item
 app.post('/api/items', async (req, res) => {
@@ -65,6 +65,20 @@ app.delete('/api/items/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+// DELETE all images from the database
+app.delete("/api/items", async (req, res) => {
+    try {
+      // Delete all images in the collection
+      await Item.deleteMany({});
+      
+      // Send a success response
+      res.status(200).json({ message: "All images deleted successfully" });
+    } catch (err) {
+      console.error("Error deleting all images:", err);
+      res.status(500).json({ error: "Failed to delete all images" });
+    }
+  });
 
 // Start the server
 const PORT = process.env.PORT || 5000;
